@@ -9,13 +9,12 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-public class Event {
+public class Donation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
+    private int id;
     @Enumerated(EnumType.STRING)
     private Currency currency;
     @Column(precision = 19, scale = 2)
-    private BigDecimal accountAmount = BigDecimal.ZERO;
+    private BigDecimal amount = BigDecimal.ZERO;
 }
