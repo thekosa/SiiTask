@@ -14,7 +14,7 @@ public class EventController {
         this.repository = repository;
     }
 
-    @PostMapping
+    @PostMapping("/new")
     public Event createEvent(@RequestBody Event event) {
         return repository.save(event);
     }
