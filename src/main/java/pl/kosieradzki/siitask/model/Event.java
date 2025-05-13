@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,4 +20,7 @@ public class Event {
     private Currency currency;
     @Column(precision = 19, scale = 2)
     private BigDecimal accountAmount = BigDecimal.ZERO;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<Box> boxes = new ArrayList<>();
 }

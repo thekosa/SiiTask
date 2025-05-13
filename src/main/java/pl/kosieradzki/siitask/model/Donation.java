@@ -1,5 +1,6 @@
 package pl.kosieradzki.siitask.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,4 +18,9 @@ public class Donation {
     private Currency currency;
     @Column(precision = 19, scale = 2)
     private BigDecimal amount = BigDecimal.ZERO;
+
+    @ManyToOne
+    @JoinColumn(name = "box_id")
+    @JsonIgnore
+    private Box box;
 }
