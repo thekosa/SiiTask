@@ -54,6 +54,14 @@ public class BoxController {
         }
     }
 
+    @PutMapping("/{boxId}/unregister")
+    public Box unregisterBox(@PathVariable int boxId) {
+        Box box = boxRepo.findById(boxId).orElseThrow(() -> new RuntimeException("Box not found"));
+        box.setBoxAmount(BigDecimal.ZERO);
+        donationRepo.deleteAllByBox(box);
+        return boxRepo.save(box);
+    }
+
     @DeleteMapping("/{boxId}")
     public void deleteBox(@PathVariable int boxId) {
         boxRepo.deleteById(boxId);
