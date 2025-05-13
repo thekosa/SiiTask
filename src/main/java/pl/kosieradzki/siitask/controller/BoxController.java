@@ -29,4 +29,12 @@ public class BoxController {
         return boxRepo.findAll();
     }
 
+    @PutMapping("/{boxId}/assign-event/{eventId}")
+    public Box assignEventToBox(@PathVariable int boxId, @PathVariable long eventId) {
+        Box box = boxRepo.findById(boxId).orElseThrow(() -> new RuntimeException("Box not found"));
+        Event event = eventRepo.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found"));
+
+        box.setEvent(event);
+        return boxRepo.save(box);
+    }
 }
