@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.kosieradzki.siitask.repo.DonationRepo;
 
 @RestController
-@RequestMapping("/donation")
+@RequestMapping("/donations")
 public class DonationController {
-    private final DonationRepo repository;
+    private final DonationRepo donationRepo;
 
-    public DonationController(DonationRepo repository) {
-        this.repository = repository;
+    public DonationController(DonationRepo donationRepo) {
+        this.donationRepo = donationRepo;
     }
 }

@@ -2,8 +2,10 @@ package pl.kosieradzki.siitask.controller;
 
 import org.springframework.web.bind.annotation.*;
 import pl.kosieradzki.siitask.model.Box;
+import pl.kosieradzki.siitask.model.Donation;
 import pl.kosieradzki.siitask.model.Event;
 import pl.kosieradzki.siitask.repo.BoxRepo;
+import pl.kosieradzki.siitask.repo.DonationRepo;
 import pl.kosieradzki.siitask.repo.EventRepo;
 
 import java.util.List;
@@ -13,15 +15,24 @@ import java.util.List;
 public class BoxController {
     private final BoxRepo boxRepo;
     private final EventRepo eventRepo;
+    private final DonationRepo donationRepo;
 
-    public BoxController(BoxRepo boxRepo, EventRepo eventRepo) {
+    public BoxController(BoxRepo boxRepo, EventRepo eventRepo, DonationRepo donationRepo) {
         this.boxRepo = boxRepo;
         this.eventRepo = eventRepo;
+        this.donationRepo = donationRepo;
     }
 
     @PostMapping("/new")
     public Box createBox(@RequestBody Box box) {
         return boxRepo.save(box);
+    }
+
+    @PostMapping("/{boxId}/new-donation")
+    public Donation createBox(@RequestBody Donation donation, @PathVariable int boxId) {
+        Box box = boxRepo.findById(boxId).orElseThrow(() -> new RuntimeException("Box not found"));
+        donation.setBox(box);
+        return donationRepo.save(donation);
     }
 
     @GetMapping
@@ -37,4 +48,6 @@ public class BoxController {
         box.setEvent(event);
         return boxRepo.save(box);
     }
+
+    
 }
