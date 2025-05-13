@@ -42,7 +42,7 @@ public class BoxController {
     }
 
     @PutMapping("/{boxId}/assign-event/{eventId}")
-    public boolean assignEventToBox(@PathVariable int boxId, @PathVariable long eventId) {
+    public boolean assignBoxToEvent(@PathVariable int boxId, @PathVariable int eventId) {
         Box box = boxRepo.findById(boxId).orElseThrow(() -> new RuntimeException("Box not found"));
         if (!box.getBoxAmount().equals(BigDecimal.ZERO)) {
             Event event = eventRepo.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found"));

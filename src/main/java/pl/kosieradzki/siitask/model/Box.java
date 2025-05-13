@@ -15,7 +15,7 @@ import java.util.List;
 public class Box {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String name;
     @Column(precision = 19, scale = 2)
     private BigDecimal boxAmount = BigDecimal.ZERO;
