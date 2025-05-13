@@ -10,4 +10,6 @@ public interface DonationRepo extends JpaRepository<Donation, Integer> {
     List<Donation> findAllBybox(Box box);
 
     void deleteAllByBox(Box box);
+
+    List<Donation> getDonationsByBoxId(int boxId);
 }

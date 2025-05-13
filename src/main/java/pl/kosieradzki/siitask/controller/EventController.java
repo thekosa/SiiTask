@@ -2,7 +2,6 @@ package pl.kosieradzki.siitask.controller;
 
 import org.springframework.web.bind.annotation.*;
 import pl.kosieradzki.siitask.model.Event;
-import pl.kosieradzki.siitask.repo.BoxRepo;
 import pl.kosieradzki.siitask.repo.EventRepo;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class EventController {
         return eventRepo.save(event);
     }
 
-    @GetMapping
+    @GetMapping("/report")
     public List<Event> getAll() {
         return eventRepo.findAll();
     }
