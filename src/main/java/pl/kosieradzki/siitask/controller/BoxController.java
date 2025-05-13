@@ -7,6 +7,7 @@ import pl.kosieradzki.siitask.model.Event;
 import pl.kosieradzki.siitask.repo.BoxRepo;
 import pl.kosieradzki.siitask.repo.DonationRepo;
 import pl.kosieradzki.siitask.repo.EventRepo;
+import pl.kosieradzki.siitask.util.CurrencyConverter;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -33,6 +34,8 @@ public class BoxController {
     public Donation createBox(@RequestBody Donation donation, @PathVariable int boxId) {
         Box box = boxRepo.findById(boxId).orElseThrow(() -> new RuntimeException("Box not found"));
         donation.setBox(box);
+        box.setBoxAmount(box.getBoxAmount().add(donation.getAmount()));
+        boxRepo.save(box);
         return donationRepo.save(donation);
     }
 
@@ -67,4 +70,29 @@ public class BoxController {
         boxRepo.deleteById(boxId);
     }
 
+    @PutMapping("/transfer/{boxId}")
+    public Event transferBox(@PathVariable int boxId) {
+        Box box = boxRepo.findById(boxId).orElseThrow(() -> new RuntimeException("Box not found"));
+        List<Donation> donations = box.getDonations();
+        Event event = box.getEvent();
+        BigDecimal newAmount = event.getAccountAmount();
+        for (Donation donation : donations) {
+            newAmount = newAmount.add(CurrencyConverter.convert(donation.getAmount(), donation.getCurrency(), event.getCurrency()));
+        }
+        event.setAccountAmount(newAmount);
+        box.getDonations().clear();
+        box.setBoxAmount(BigDecimal.ZERO);
+        boxRepo.save(box);
+        return eventRepo.save(event);
+    }
+
+    @PutMapping("/{eventId}/transfer-all")
+    public Event transferAllBoxes(@PathVariable int eventId) {
+        Event event = eventRepo.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found"));
+        List<Box> boxes = event.getBoxes();
+        for (Box box : boxes) {
+            transferBox(box.getId());
+        }
+        return event;
+    }
 }
