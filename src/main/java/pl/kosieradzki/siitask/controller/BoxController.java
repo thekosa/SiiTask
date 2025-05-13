@@ -8,6 +8,7 @@ import pl.kosieradzki.siitask.repo.BoxRepo;
 import pl.kosieradzki.siitask.repo.DonationRepo;
 import pl.kosieradzki.siitask.repo.EventRepo;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -41,13 +42,21 @@ public class BoxController {
     }
 
     @PutMapping("/{boxId}/assign-event/{eventId}")
-    public Box assignEventToBox(@PathVariable int boxId, @PathVariable long eventId) {
+    public boolean assignEventToBox(@PathVariable int boxId, @PathVariable long eventId) {
         Box box = boxRepo.findById(boxId).orElseThrow(() -> new RuntimeException("Box not found"));
-        Event event = eventRepo.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found"));
-
-        box.setEvent(event);
-        return boxRepo.save(box);
+        if (!box.getBoxAmount().equals(BigDecimal.ZERO)) {
+            Event event = eventRepo.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found"));
+            box.setEvent(event);
+            boxRepo.save(box);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    
+    @DeleteMapping("/{boxId}")
+    public void deleteBox(@PathVariable int boxId) {
+        boxRepo.deleteById(boxId);
+    }
+
 }
