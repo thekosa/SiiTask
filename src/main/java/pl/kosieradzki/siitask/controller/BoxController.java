@@ -34,7 +34,6 @@ public class BoxController {
     public Donation createBox(@RequestBody Donation donation, @PathVariable int boxId) {
         Box box = boxRepo.findById(boxId).orElseThrow(() -> new RuntimeException("Box not found"));
         donation.setBox(box);
-        box.setBoxAmount(box.getBoxAmount().add(donation.getAmount()));
         boxRepo.save(box);
         return donationRepo.save(donation);
     }
@@ -60,7 +59,6 @@ public class BoxController {
     @PutMapping("/{boxId}/unregister")
     public Box unregisterBox(@PathVariable int boxId) {
         Box box = boxRepo.findById(boxId).orElseThrow(() -> new RuntimeException("Box not found"));
-        box.setBoxAmount(BigDecimal.ZERO);
         donationRepo.deleteAllByBox(box);
         return boxRepo.save(box);
     }
@@ -81,7 +79,6 @@ public class BoxController {
         }
         event.setAccountAmount(newAmount);
         box.getDonations().clear();
-        box.setBoxAmount(BigDecimal.ZERO);
         boxRepo.save(box);
         return eventRepo.save(event);
     }
