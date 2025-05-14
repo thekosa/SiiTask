@@ -24,4 +24,8 @@ public class Box {
 
     @OneToMany(mappedBy = "box", cascade = CascadeType.ALL)
     private List<Donation> donations = new ArrayList<>();
+
+    public boolean isEmpty() {
+        return donations.isEmpty();
+    }
 }
