@@ -20,7 +20,12 @@ public class Event {
     private Currency currency;
     @Column(precision = 19, scale = 2)
     private BigDecimal accountAmount = BigDecimal.ZERO;
+    private int isActive = 1;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Box> boxes = new ArrayList<>();
+
+    public boolean isActive() {
+        return isActive == 1;
+    }
 }

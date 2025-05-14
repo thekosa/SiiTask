@@ -59,13 +59,19 @@ public class BoxController {
     @PutMapping("/{boxId}/unregister")
     public Box unregisterBox(@PathVariable int boxId) {
         Box box = boxRepo.findById(boxId).orElseThrow(() -> new RuntimeException("Box not found"));
-        donationRepo.deleteAllByBox(box);
+        List<Donation> donations = donationRepo.findAllBybox(box);
+        for (Donation donation : donations) {
+            donation.setIsActive(0);
+            donationRepo.save(donation);
+        }
         return boxRepo.save(box);
     }
 
     @DeleteMapping("/{boxId}")
     public void deleteBox(@PathVariable int boxId) {
-        boxRepo.deleteById(boxId);
+        Box box = boxRepo.findById(boxId).orElseThrow(() -> new RuntimeException("Box not found"));
+        box.setIsActive(0);
+        boxRepo.save(box);
     }
 
     @PutMapping("/transfer/{boxId}")

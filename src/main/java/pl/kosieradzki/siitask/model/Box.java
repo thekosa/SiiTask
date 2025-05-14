@@ -16,6 +16,7 @@ public class Box {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    private int isActive = 1;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
@@ -27,5 +28,9 @@ public class Box {
 
     public boolean isEmpty() {
         return donations.isEmpty();
+    }
+
+    public boolean isActive() {
+        return isActive == 1;
     }
 }

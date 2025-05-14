@@ -18,9 +18,14 @@ public class Donation {
     private Currency currency;
     @Column(precision = 19, scale = 2)
     private BigDecimal amount = BigDecimal.ZERO;
+    private int isActive = 1;
 
     @ManyToOne
     @JoinColumn(name = "box_id")
     @JsonIgnore
     private Box box;
+
+    public boolean isActive() {
+        return isActive == 1;
+    }
 }
