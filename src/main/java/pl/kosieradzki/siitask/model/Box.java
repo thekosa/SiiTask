@@ -16,7 +16,7 @@ public class Box {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    
+
     @ManyToOne
     @JoinColumn(name = "event_id")
     @JsonIgnore
