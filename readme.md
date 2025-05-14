@@ -244,7 +244,3 @@ Returns a list of events with current account balances:
 * Transferring funds empties the box and converts currencies to the event's currency
 
 ---
-
-This project meets the requirements of the recruitment assignment.
-
----
