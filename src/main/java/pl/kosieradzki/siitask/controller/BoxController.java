@@ -30,14 +30,6 @@ public class BoxController {
         return boxRepo.save(box);
     }
 
-    @PostMapping("/{boxId}/new-donation")
-    public Donation createBox(@RequestBody Donation donation, @PathVariable int boxId) {
-        Box box = boxRepo.findById(boxId).orElseThrow(() -> new RuntimeException("Box not found"));
-        donation.setBox(box);
-        boxRepo.save(box);
-        return donationRepo.save(donation);
-    }
-
     @GetMapping
     public List<Box> getAll() {
         return boxRepo.findAll();
